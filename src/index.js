@@ -1,19 +1,12 @@
-const pool = require('./database');
+const express = require('express');
+const equipamentosRoutes = require('./routes/equipamentos.routes');
 
-async function consultarEquipamentos() {
-    try {
-        const resultado = await pool.query(
-            'SELECT * FROM equipamentos ORDER BY id'
-        );
+const app = express();
 
-        console.log('Equipamentos cadastrados:');
+app.use(express.json());
 
-        console.table(resultado.rows);
-    } catch (erro) {
-        console.error('Erro ao consultar o banco:', erro.message);
-    } finally {
-        await pool.end();
-    }
-}
+app.use(equipamentosRoutes);
 
-consultarEquipamentos();
+app.listen(3000, () => {
+    console.log('Servidor rodando na porta 3000');
+    });
